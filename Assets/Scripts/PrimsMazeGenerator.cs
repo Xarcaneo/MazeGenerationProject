@@ -4,31 +4,61 @@ using UnityEngine;
 
 public class PrimsMazeGenerator : MazeGenerator
 {
+    // List to hold the current frontier tiles
     private List<Vector2Int> frontierTiles = new List<Vector2Int>();
+
+    // List to hold temporary frontier tiles for consideration
     private List<Vector2Int> tempFrontierTiles = new List<Vector2Int>();
 
+    // Coroutine to generate the maze using Prim's algorithm
     protected override IEnumerator GenerateMaze()
     {
-        MazeTile tile = GetRandomTile(mazeTiles);
-        tile.ChangeState(MazeTile.TileState.Passage);
-        AddFrontierTiles(tile.position.x, tile.position.y);
+        MazeTile tile;
 
-        while(frontierTiles.Count > 0)
+        do
+        {
+            frontierTiles.Clear();
+            tile = GetRandomTile(mazeTiles);
+            AddFrontierTiles(tile.position.x, tile.position.y, false);
+        } while (frontierTiles.Count != 4);
+
+        tile.ChangeState(MazeTile.TileState.Passage);
+
+        // While there are tiles in the frontier list
+        while (frontierTiles.Count > 0)
         {
             MazeTile frontierTile = GetRandomTile(frontierTiles);
-            if (frontierTile.position.x > 0 && frontierTile.position.x < width - 1 && frontierTile.position.y > 0 && frontierTile.position.y < height - 1)
+            Vector2Int frontierPosition = new Vector2Int(frontierTile.position.x, frontierTile.position.y);
+
+            if (IsWithinBounds(frontierPosition))
             {
                 frontierTile.ChangeState(MazeTile.TileState.Passage);
-                AddFrontierTiles(frontierTile.position.x, frontierTile.position.y);
+            }
+            else
+            {
+                frontierTile.isBorderTile = true;
+            }
 
-                MazeTile tempFrontier = GetRandomTile(tempFrontierTiles);
-                MakePassageBetween(new Vector2Int(frontierTile.position.x, frontierTile.position.y), new Vector2Int(tempFrontier.position.x, tempFrontier.position.y));
+            // Add surrounding tiles of the frontier tile to the frontier
+            AddFrontierTiles(frontierTile.position.x, frontierTile.position.y, frontierTile.isBorderTile);
+
+            MazeTile tempFrontier = GetRandomTile(tempFrontierTiles);
+
+            if (tempFrontier != null)
+            {
+                MakePassageBetween(frontierPosition, new Vector2Int(tempFrontier.position.x, tempFrontier.position.y));
             }
 
             frontierTiles.Remove(new Vector2Int(frontierTile.position.x, frontierTile.position.y));
 
             yield return new WaitForSeconds(mazeGenerationDelay);
         }
+    }
+
+    // Method to check if a position is within the maze bounds
+    private bool IsWithinBounds(Vector2Int position)
+    {
+        return position.x > 0 && position.x < width - 1 && position.y > 0 && position.y < height - 1;
     }
 
     // Method to get a random tile from a MazeTile[,] array
@@ -54,23 +84,28 @@ public class PrimsMazeGenerator : MazeGenerator
         return mazeTiles[randomPosition.x, randomPosition.y];
     }
 
-    void AddFrontierTiles(int x, int y)
+    // Method to add frontier tiles around a specified position
+    void AddFrontierTiles(int x, int y, bool isBorderTile)
     {
-        AddFrontierTile(x - 2, y);
-        AddFrontierTile(x + 2, y);
-        AddFrontierTile(x, y - 2);
-        AddFrontierTile(x, y + 2);
+        // Add frontier tiles in all four cardinal directions
+        AddFrontierTile(x - 2, y, isBorderTile); // Left
+        AddFrontierTile(x + 2, y, isBorderTile); // Right
+        AddFrontierTile(x, y - 2, isBorderTile); // Up
+        AddFrontierTile(x, y + 2, isBorderTile); // Down
     }
 
-    void AddFrontierTile(int x, int y)
+    // Method to add a single tile to the frontier
+    void AddFrontierTile(int x, int y, bool isBorderTile)
     {
+        // Check if the tile is within the maze boundaries
         if (x >= 0 && x < width && y >= 0 && y < height)
         {
             Vector2Int newFrontierTile = new Vector2Int(x, y);
 
             if (mazeTiles[x, y].CurrentState == MazeTile.TileState.Wall)
             {
-                if (!frontierTiles.Contains(newFrontierTile))
+                // Add to frontier if it has no passage neighbors, is not already in the frontier, and is not a border tile
+                if (!frontierTiles.Contains(newFrontierTile) && !isBorderTile)
                 {
                     frontierTiles.Add(newFrontierTile);
 
@@ -83,6 +118,7 @@ public class PrimsMazeGenerator : MazeGenerator
             }
             else
             {
+                // If the tile is not a wall, add it to temporary frontier if not already present
                 if (!frontierTiles.Contains(newFrontierTile))
                 {
                     tempFrontierTiles.Add(newFrontierTile);
@@ -94,11 +130,11 @@ public class PrimsMazeGenerator : MazeGenerator
     // Method to create a passage between two positions
     private void MakePassageBetween(Vector2Int pos1, Vector2Int pos2)
     {
-        // Calculate the middle position
+        // Calculate the middle position between the two tiles
         int midX = (pos1.x + pos2.x) / 2;
         int midY = (pos1.y + pos2.y) / 2;
 
-        // Set the middle tile to Passage
+        // Set the middle tile to a passage if it's within bounds
         if (midX >= 0 && midX < width && midY >= 0 && midY < height)
         {
             mazeTiles[midX, midY].ChangeState(MazeTile.TileState.Passage);
