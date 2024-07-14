@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
 {
-    // The width of the maze grid
-    [Tooltip("Width of the maze grid.")]
-    [SerializeField] protected int width = 20;
-
-    // The height of the maze grid
-    [Tooltip("Height of the maze grid.")]
-    [SerializeField] protected int height = 20;
-
     // Prefab for the maze tiles
     [Tooltip("Prefab for the maze tiles.")]
     [SerializeField] private MazeTile tilePrefab;
@@ -20,11 +12,20 @@ public class MazeGenerator : MonoBehaviour
     [Tooltip("Parent transform to hold all the maze tiles.")]
     [SerializeField] private Transform parentTransform;
 
+    protected int width = 20;
+    protected int height = 20;
+
     // 2D array to hold references to all the maze tiles
     protected MazeTile[,] mazeTiles;
 
     private void Start()
     {
+        if (SettingsManager.Instance)
+        {
+            width = SettingsManager.Instance.Width;
+            height = SettingsManager.Instance.Height;
+        }
+
         GenerateGrid();
         GenerateMaze();
     }
