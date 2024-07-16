@@ -12,6 +12,8 @@ public class PrimsMazeGenerator : MazeGenerator
 
     public override void GenerateMaze()
     {
+        base.GenerateMaze();
+
         MazeTile tile;
 
         do
@@ -49,9 +51,10 @@ public class PrimsMazeGenerator : MazeGenerator
             }
 
             frontierTiles.Remove(new Vector2Int(frontierTile.position.x, frontierTile.position.y));
-
-
         }
+
+
+        InstantiateGameObjects();
     }
 
     // Method to check if a position is within the maze bounds

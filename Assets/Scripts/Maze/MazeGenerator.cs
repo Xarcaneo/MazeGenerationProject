@@ -12,14 +12,31 @@ public class MazeGenerator : MonoBehaviour
     [Tooltip("Parent transform to hold all the maze tiles.")]
     [SerializeField] private Transform parentTransform;
 
+    // Prefab for the player
+    [Tooltip("Prefab for the player.")]
+    [SerializeField] private GameObject playerPrefab;
+
+    // Prefab for the player
+    [Tooltip("Prefab for the score pickup.")]
+    [SerializeField] private GameObject scorePrefab;
+
     protected int width = 20;
     protected int height = 20;
 
     // 2D array to hold references to all the maze tiles
     protected MazeTile[,] mazeTiles;
 
+    protected ObjectsSpawner m_objectsSpawner;
+
     private void Start()
     {
+
+        // Initialize PlayerSpawner
+        if (m_objectsSpawner == null)
+        {
+            m_objectsSpawner = gameObject.AddComponent<ObjectsSpawner>();
+        }
+
         if (SettingsManager.Instance)
         {
             width = SettingsManager.Instance.Width;
@@ -60,12 +77,15 @@ public class MazeGenerator : MonoBehaviour
     }
 
     // Virtual method to generate the maze
-    virtual public void GenerateMaze() { }
+    virtual public void GenerateMaze() 
+    {
+        m_objectsSpawner.ClearSpawnedObjects();
+        m_objectsSpawner.ClearOccupiedTiles();
+    }
 
     // Virtual method to clear the maze
     virtual public void ClearMaze()
     {
-
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -73,5 +93,14 @@ public class MazeGenerator : MonoBehaviour
                 mazeTiles[x, y].ChangeState(MazeTile.TileState.Wall);
             }
         }
-    }  
+    }
+
+    protected void InstantiateGameObjects()
+    {
+        //Spawn Player
+        m_objectsSpawner.SpawnObjects(width, height, mazeTiles, playerPrefab, 1);
+
+        //Spawn score pickups
+        m_objectsSpawner.SpawnObjects(width, height, mazeTiles, scorePrefab, 3);
+    }
 }

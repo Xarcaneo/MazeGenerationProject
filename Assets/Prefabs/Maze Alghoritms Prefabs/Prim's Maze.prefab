@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 77154107265219491, guid: 82688e6c49ad73f4fb26345e373cb69f, type: 3}
   parentTransform: {fileID: 5198403439532465531}
+  playerPrefab: {fileID: 6668858086468713826, guid: 2e4d054b652d1684093c6d35989f3ab9, type: 3}
+  scorePrefab: {fileID: 6668858086468713826, guid: 9d7e98028e0df534dacda5a175258080, type: 3}
