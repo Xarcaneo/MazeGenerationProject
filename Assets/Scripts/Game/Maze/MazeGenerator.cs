@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MazeGenerator : MonoBehaviour
+public abstract class MazeGenerator : MonoBehaviour
 {
     // Prefab for the maze tiles
     [Tooltip("Prefab for the maze tiles.")]
@@ -101,6 +101,6 @@ public class MazeGenerator : MonoBehaviour
         m_objectsSpawner.SpawnObjects(width, height, mazeTiles, playerPrefab, 1);
 
         //Spawn score pickups
-        m_objectsSpawner.SpawnObjects(width, height, mazeTiles, scorePrefab, 3);
+        m_objectsSpawner.SpawnObjects(width, height, mazeTiles, scorePrefab, LevelManager.Instance.maxScoreToWin);
     }
 }
