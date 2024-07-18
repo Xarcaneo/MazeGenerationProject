@@ -14,6 +14,7 @@ public class SettingsManager : MonoBehaviour
 
     public int Width { get; set; } = 20;
     public int Height { get; set; } = 20;
+    public bool HasTimeLimit { get; set; } = false;
 
     private void Awake()
     {
@@ -27,4 +28,6 @@ public class SettingsManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void SwitchHasTimeLimitSetting() => HasTimeLimit = !HasTimeLimit;
 }

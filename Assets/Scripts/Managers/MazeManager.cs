@@ -31,6 +31,7 @@ public class MazeManager : MonoBehaviour
     {
         mazeGeneratorInstance.GetComponent<MazeGenerator>().ClearMaze();
         mazeGeneratorInstance.GetComponent<MazeGenerator>().GenerateMaze();
+        LevelManager.Instance.ResetLevelVariables();
     }
 
     public void BackToMenu()

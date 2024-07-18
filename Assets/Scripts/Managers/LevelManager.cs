@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,8 +15,14 @@ public class LevelManager : MonoBehaviour
     [Tooltip("TextMesgoPro text object for current level text")]
     [SerializeField] private TextMeshProUGUI currentLevelText;
 
+    [Tooltip("Reference to the TimerManager")]
+    [SerializeField] private TimerManager timerManager;
+
     private int m_current_level = 1;
     private int m_current_score = 0;
+
+    public event Action ScoreIncreased;
+    public event Action ScoreReseted;
 
     public static LevelManager Instance { get; private set; }
 
@@ -34,17 +41,56 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (SettingsManager.Instance.HasTimeLimit && timerManager != null)
+        {
+            timerManager.TimeUp += OnTimeUp;
+            timerManager.InitializeTimer(SettingsManager.Instance.Width, SettingsManager.Instance.Height);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (timerManager != null)
+        {
+            timerManager.TimeUp -= OnTimeUp;
+        }
+    }
+
     public void IncreaseScore()
     {
         if (m_current_score < maxScoreToWin)
             m_current_score++;
 
+        ScoreIncreased?.Invoke();
+
         if (m_current_score == maxScoreToWin && mazeManager)
         {
-            m_current_score = 0;
+            ResetLevelVariables();
             m_current_level++;
             currentLevelText.text = "Level: " + m_current_level;
             mazeManager.GenerateNewMaze();
         }
     }
+
+    private void OnTimeUp()
+    {
+        Debug.Log("Time's up!");
+        // Handle game over logic here
+    }
+
+    public void ResetLevelVariables()
+    {
+        m_current_score = 0;
+
+        if (SettingsManager.Instance.HasTimeLimit && timerManager != null)
+        {
+            timerManager.InitializeTimer(SettingsManager.Instance.Width, SettingsManager.Instance.Height);
+        }
+
+        ScoreReseted?.Invoke();
+    }
+
+    public int GetScore() { return m_current_score; }
 }
