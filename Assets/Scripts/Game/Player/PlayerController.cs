@@ -15,9 +15,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 targetPosition;
     private bool isMoving = false;
 
+    private PlayerAnimationController animationController;
+
     private void Start()
     {
         targetPosition = transform.position;
+        animationController = GetComponent<PlayerAnimationController>();
     }
 
     private void Update()
@@ -34,6 +37,8 @@ public class PlayerController : MonoBehaviour
                 moveDirection = Vector2.left;
             else if (Input.GetKeyDown(KeyCode.RightArrow))
                 moveDirection = Vector2.right;
+
+            animationController.SetMovementAnimation(moveDirection);        
 
             if (moveDirection != Vector2.zero)
             {
@@ -57,6 +62,7 @@ public class PlayerController : MonoBehaviour
         }
         targetPosition = newPosition;
         isMoving = false;
+        animationController.SetMovementAnimation(Vector2.zero); // Set to idle after moving
     }
 
     private bool CanMoveTo(Vector2 targetPos, Vector2 moveDirection)

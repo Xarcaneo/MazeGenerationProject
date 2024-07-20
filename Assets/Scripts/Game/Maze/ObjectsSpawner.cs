@@ -43,8 +43,11 @@ public class ObjectsSpawner : MonoBehaviour
                 // Mark the tile as occupied
                 occupiedTiles.Add(randomPosition);
 
+                BoxCollider2D prefabBoxCollider = prefab.GetComponent<BoxCollider2D>();
+                Vector3 instantiatePos = new Vector3(randomTile.transform.position.x - prefabBoxCollider.offset.x, randomTile.transform.position.y - prefabBoxCollider.offset.y);
+
                 // Instantiate the object at the position of the random passage tile
-                GameObject spawnedObject = Instantiate(prefab, randomTile.transform.position, Quaternion.identity);
+                GameObject spawnedObject = Instantiate(prefab, instantiatePos, Quaternion.identity);
                 spawnedObjects.Add(spawnedObject);
             }
         }

@@ -40,12 +40,12 @@ public class MazeSettings : MonoBehaviour
 
     private void UpdateWidthText(float value)
     {
-        widthValueText.text = "Width: " + value.ToString("F0");
+        widthValueText.text = value.ToString("F0");
     }
 
     private void UpdateHeightText(float value)
     {
-        heightValueText.text = "Height: " + value.ToString("F0");
+        heightValueText.text = value.ToString("F0");
     }
 
     public void PlayGame()

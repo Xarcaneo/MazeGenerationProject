@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        currentLevelText.text = "Level: " + m_current_level;
+        currentLevelText.text = m_current_level.ToString();
 
         if (Instance == null)
         {
@@ -69,7 +69,7 @@ public class LevelManager : MonoBehaviour
         {
             ResetLevelVariables();
             m_current_level++;
-            currentLevelText.text = "Level: " + m_current_level;
+            currentLevelText.text = m_current_level.ToString();
             mazeManager.GenerateNewMaze();
         }
     }

@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MazeTile : MonoBehaviour
 {
     public enum TileState { Wall, Passage }
     public TileState CurrentState;
+
+    [Tooltip("Sprite for wall tiles.")]
+    [SerializeField] private Sprite wallSprite;
+
+    [Tooltip("Sprite for passage tiles.")]
+    [SerializeField] private Sprite passageSprite;
 
     // Position of the tile in the maze
     public Vector2Int position;
@@ -26,11 +33,13 @@ public class MazeTile : MonoBehaviour
 
         if (CurrentState == TileState.Passage)
         {
-            this.gameObject.SetActive(false);
+            this.GetComponent<SpriteRenderer>().sprite = passageSprite;
+            this.GetComponent<BoxCollider2D>().enabled = false;
         }
         else
         {
-            this.gameObject.SetActive(true);
+            this.GetComponent<SpriteRenderer>().sprite = wallSprite;
+            this.GetComponent<BoxCollider2D>().enabled = true;
         }
     }
 }

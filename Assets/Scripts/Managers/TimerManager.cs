@@ -63,7 +63,7 @@ public class TimerManager : MonoBehaviour
         if (timerText != null)
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
-            timerText.text = $"Time: {timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
+            timerText.text = $"{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
 
             // Change color if below warning time
             if (currentTime <= warningTime)
