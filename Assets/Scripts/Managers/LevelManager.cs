@@ -9,27 +9,17 @@ public class LevelManager : MonoBehaviour
     [SerializeField, Tooltip("Max score to complete level")]
     public int maxScoreToWin;
 
-    [Tooltip("MazeManager GameObject.")]
-    [SerializeField] private MazeManager mazeManager;
-
-    [Tooltip("TextMesgoPro text object for current level text")]
-    [SerializeField] private TextMeshProUGUI currentLevelText;
-
-    [Tooltip("Reference to the TimerManager")]
-    [SerializeField] private TimerManager timerManager;
-
     private int m_current_level = 1;
     private int m_current_score = 0;
 
     public event Action ScoreIncreased;
     public event Action ScoreReseted;
+    public event Action NewLevel;
 
     public static LevelManager Instance { get; private set; }
 
     private void Awake()
     {
-        currentLevelText.text = m_current_level.ToString();
-
         if (Instance == null)
         {
             Instance = this;
@@ -41,23 +31,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        if (SettingsManager.Instance.HasTimeLimit && timerManager != null)
-        {
-            timerManager.TimeUp += OnTimeUp;
-            timerManager.InitializeTimer(SettingsManager.Instance.Width, SettingsManager.Instance.Height);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (timerManager != null)
-        {
-            timerManager.TimeUp -= OnTimeUp;
-        }
-    }
-
     public void IncreaseScore()
     {
         if (m_current_score < maxScoreToWin)
@@ -65,12 +38,11 @@ public class LevelManager : MonoBehaviour
 
         ScoreIncreased?.Invoke();
 
-        if (m_current_score == maxScoreToWin && mazeManager)
+        if (m_current_score == maxScoreToWin)
         {
             ResetLevelVariables();
             m_current_level++;
-            currentLevelText.text = m_current_level.ToString();
-            mazeManager.GenerateNewMaze();
+            NewLevel?.Invoke();
         }
     }
 
@@ -84,13 +56,9 @@ public class LevelManager : MonoBehaviour
     {
         m_current_score = 0;
 
-        if (SettingsManager.Instance.HasTimeLimit && timerManager != null)
-        {
-            timerManager.InitializeTimer(SettingsManager.Instance.Width, SettingsManager.Instance.Height);
-        }
-
         ScoreReseted?.Invoke();
     }
 
     public int GetScore() { return m_current_score; }
+    public int GetCurrentLevel() { return m_current_level; }
 }

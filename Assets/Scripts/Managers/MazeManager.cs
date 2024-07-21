@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,11 @@ public class MazeManager : MonoBehaviour
     private void Start()
     {
         InstantiateMazeGenerator();
+
+        LevelManager.Instance.NewLevel += GenerateNewMaze;
     }
+
+    private void OnDestroy() => LevelManager.Instance.NewLevel -= GenerateNewMaze;
 
     private void InstantiateMazeGenerator()
     {
@@ -27,7 +32,7 @@ public class MazeManager : MonoBehaviour
     }
 
     // Method to generate a new maze
-    public void GenerateNewMaze()
+    private void GenerateNewMaze()
     {
         mazeGeneratorInstance.GetComponent<MazeGenerator>().ClearMaze();
         mazeGeneratorInstance.GetComponent<MazeGenerator>().GenerateMaze();

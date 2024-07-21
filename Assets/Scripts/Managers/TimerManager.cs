@@ -8,9 +8,6 @@ public class TimerManager : MonoBehaviour
     [Tooltip("TextMeshPro text object for timer text")]
     [SerializeField] private TextMeshProUGUI timerText;
 
-    [Tooltip("Base time limit for the smallest maze (10x10) in seconds")]
-    [SerializeField] private float baseTimeLimit = 30f;
-
     [Tooltip("Additional time per cell for larger mazes")]
     [SerializeField] private float timePerCell = 0.1f;
 
@@ -23,13 +20,26 @@ public class TimerManager : MonoBehaviour
     private float currentTime;
     private Color originalColor;
 
-    public event Action TimeUp;
-
     private void Start()
     {
         if (timerText != null)
         {
             originalColor = timerText.color;
+        }
+
+        if (SettingsManager.Instance && SettingsManager.Instance.HasTimeLimit)
+        {
+            InitializeTimer(SettingsManager.Instance.Width, SettingsManager.Instance.Height);
+        }
+
+        LevelManager.Instance.ScoreReseted += OnScoreReseted;
+    }
+
+    private void OnScoreReseted()
+    {
+        if (SettingsManager.Instance && SettingsManager.Instance.HasTimeLimit)
+        {
+            InitializeTimer(SettingsManager.Instance.Width, SettingsManager.Instance.Height);
         }
     }
 
@@ -43,7 +53,7 @@ public class TimerManager : MonoBehaviour
     private void AdjustTimeLimit(int width, int height)
     {
         int totalCells = width * height;
-        currentTime = baseTimeLimit + (totalCells * timePerCell);
+        currentTime = totalCells * timePerCell;
     }
 
     private IEnumerator CountdownTimer()
@@ -54,8 +64,6 @@ public class TimerManager : MonoBehaviour
             currentTime--;
             UpdateTimerUI();
         }
-
-        TimeUp?.Invoke();
     }
 
     private void UpdateTimerUI()
@@ -63,7 +71,7 @@ public class TimerManager : MonoBehaviour
         if (timerText != null)
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
-            timerText.text = $"{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
+            timerText.text = $"{timeSpan.Hours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
 
             // Change color if below warning time
             if (currentTime <= warningTime)
@@ -79,6 +87,7 @@ public class TimerManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        LevelManager.Instance.ScoreReseted -= OnScoreReseted;
         StopAllCoroutines();
     }
 }

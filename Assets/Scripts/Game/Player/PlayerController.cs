@@ -38,14 +38,14 @@ public class PlayerController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.RightArrow))
                 moveDirection = Vector2.right;
 
-            animationController.SetMovementAnimation(moveDirection);        
-
             if (moveDirection != Vector2.zero)
             {
                 Vector2 newPosition = (Vector2)transform.position + moveDirection * gridSize;
 
                 if (CanMoveTo(newPosition, moveDirection))
                 {
+                    animationController.SetMovementAnimation(moveDirection);
+
                     StartCoroutine(MoveToPosition(newPosition));
                 }
             }

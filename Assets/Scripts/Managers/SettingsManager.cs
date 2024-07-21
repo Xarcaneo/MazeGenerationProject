@@ -12,8 +12,8 @@ public class SettingsManager : MonoBehaviour
 
     public static SettingsManager Instance { get; private set; }
 
-    public int Width { get; set; } = 20;
-    public int Height { get; set; } = 20;
+    public int Width { get; set; } = 10;
+    public int Height { get; set; } = 10;
     public bool HasTimeLimit { get; set; } = false;
 
     private void Awake()

@@ -24,6 +24,9 @@ public class MazeSettings : MonoBehaviour
 
         UpdateWidthText(widthSlider.value);
         UpdateHeightText(heightSlider.value);
+
+        widthSlider.value = SettingsManager.Instance.Width;
+        heightSlider.value = SettingsManager.Instance.Height;
     }
 
     private void OnWidthSliderValueChanged(float value)

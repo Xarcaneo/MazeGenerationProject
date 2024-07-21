@@ -9,8 +9,8 @@ public class ScoreCounterUI : MonoBehaviour
     [SerializeField, Tooltip("Prefab for the Carrot Icon")]
     private GameObject carrotIconPrefab;
 
-    [SerializeField, Tooltip("Color for the collected Carrot Icon")]
-    private Color collectedColor = Color.green;
+    [SerializeField, Tooltip("Sprite for the collected carrot Icon")]
+    private Sprite collectedCarrotSprite;
 
     private List<Image> carrotIcons = new List<Image>();
 
@@ -52,7 +52,7 @@ public class ScoreCounterUI : MonoBehaviour
 
         if (currentScore - 1 < carrotIcons.Count)
         {
-            carrotIcons[currentScore - 1].color = collectedColor;
+            carrotIcons[currentScore - 1].sprite = collectedCarrotSprite;
         }
     }
 
