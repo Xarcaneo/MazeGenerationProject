@@ -9,15 +9,25 @@ public class ScoreCounterUI : MonoBehaviour
     [SerializeField, Tooltip("Prefab for the Carrot Icon")]
     private GameObject carrotIconPrefab;
 
-    [SerializeField, Tooltip("Sprite for the collected carrot Icon")]
+    [SerializeField, Tooltip("Sprite for the collected Carrot Icon")]
     private Sprite collectedCarrotSprite;
 
+    [SerializeField, Tooltip("Reference to the TimerManager")]
+    private TimerManager timerManager;
+
     private List<Image> carrotIcons = new List<Image>();
+    private Animator m_animator;
 
     void Start()
     {
+        m_animator = GetComponent<Animator>();
+
         LevelManager.Instance.ScoreIncreased += OnScoreIncreased;
         LevelManager.Instance.ScoreReseted += OnScoreReseted;
+        if (timerManager != null)
+        {
+            timerManager.TimeAlmostUp += OnTimeAlmostUp;
+        }
 
         InitializeCarrotIcons();
     }
@@ -58,9 +68,12 @@ public class ScoreCounterUI : MonoBehaviour
 
     private void OnScoreReseted()
     {
+        m_animator.Play("Idle");
         ClearCarrotIcons();
         InitializeCarrotIcons();
     }
+
+    private void OnTimeAlmostUp() { m_animator.Play("Hurry"); }
 
     private void OnDestroy()
     {
@@ -68,6 +81,10 @@ public class ScoreCounterUI : MonoBehaviour
         {
             LevelManager.Instance.ScoreIncreased -= OnScoreIncreased;
             LevelManager.Instance.ScoreReseted -= OnScoreReseted;
+        }
+        if (timerManager != null)
+        {
+            timerManager.TimeAlmostUp -= OnTimeAlmostUp;
         }
     }
 }

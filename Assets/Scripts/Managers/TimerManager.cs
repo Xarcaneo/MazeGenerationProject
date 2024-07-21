@@ -17,8 +17,14 @@ public class TimerManager : MonoBehaviour
     [Tooltip("Color for the timer text when time is below warning time")]
     [SerializeField] private Color warningColor = Color.red;
 
+    [Tooltip("Reference to the MazeManager")]
+    [SerializeField] private MazeManager mazeManager;
+
     private float currentTime;
     private Color originalColor;
+    private bool warningTimeOn;
+
+    public event Action TimeAlmostUp;
 
     private void Start()
     {
@@ -45,6 +51,7 @@ public class TimerManager : MonoBehaviour
 
     public void InitializeTimer(int width, int height)
     {
+        warningTimeOn = false;
         StopAllCoroutines();
         AdjustTimeLimit(width, height);
         StartCoroutine(CountdownTimer());
@@ -64,6 +71,9 @@ public class TimerManager : MonoBehaviour
             currentTime--;
             UpdateTimerUI();
         }
+
+        // Trigger the maze regeneration when time is up
+        mazeManager.BackToMenu();
     }
 
     private void UpdateTimerUI()
@@ -73,10 +83,14 @@ public class TimerManager : MonoBehaviour
             TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
             timerText.text = $"{timeSpan.Hours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
 
+            if (warningTimeOn) return;
+
             // Change color if below warning time
             if (currentTime <= warningTime)
             {
+                TimeAlmostUp?.Invoke();
                 timerText.color = warningColor;
+                warningTimeOn = true;
             }
             else
             {

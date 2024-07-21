@@ -46,12 +46,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void OnTimeUp()
-    {
-        Debug.Log("Time's up!");
-        // Handle game over logic here
-    }
-
     public void ResetLevelVariables()
     {
         m_current_score = 0;

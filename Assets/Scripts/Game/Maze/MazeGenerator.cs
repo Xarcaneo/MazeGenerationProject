@@ -95,6 +95,12 @@ public abstract class MazeGenerator : MonoBehaviour
         }
     }
 
+    // Method to check if a position is within the maze bounds
+    protected bool IsWithinBounds(Vector2Int position)
+    {
+        return position.x > 0 && position.x < width - 1 && position.y > 0 && position.y < height - 1;
+    }
+
     protected void InstantiateGameObjects()
     {
         //Spawn Player

@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 50
+    m_Left: 35
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
@@ -607,6 +607,7 @@ GameObject:
   - component: {fileID: 701013673}
   - component: {fileID: 701013672}
   - component: {fileID: 701013671}
+  - component: {fileID: 701013674}
   m_Layer: 5
   m_Name: Menu Button
   m_TagString: Untagged
@@ -729,6 +730,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701013669}
   m_CullTransparentMesh: 1
+--- !u!114 &701013674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701013669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60cfe6b3aeb348f43aa65942dda761b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSprite: {fileID: 68147864, guid: 6b6d31374a77f514fb6182e526fe9324, type: 3}
+  focusedSprite: {fileID: -2059189521, guid: 6b6d31374a77f514fb6182e526fe9324, type: 3}
+  buttonImage: {fileID: 352341249}
 --- !u!1 &990852407
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +781,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 32, y: 16}
+  m_SizeDelta: {x: 40, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &990852409
 MonoBehaviour:
@@ -846,8 +862,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Unlimited
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 15671fd1ebc32484b9ea1750050393db, type: 2}
+  m_sharedMaterial: {fileID: -5377322362304627556, guid: 15671fd1ebc32484b9ea1750050393db, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -871,8 +887,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -957,6 +973,7 @@ MonoBehaviour:
   timePerCell: 0.1
   warningTime: 10
   warningColor: {r: 1, g: 0, b: 0, a: 1}
+  mazeManager: {fileID: 1750312076}
 --- !u!1 &1107353636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,7 +1030,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 3
   m_Spacing: 20
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
@@ -1213,6 +1230,7 @@ GameObject:
   - component: {fileID: 1221794989}
   - component: {fileID: 1221794992}
   - component: {fileID: 1221794991}
+  - component: {fileID: 1221794993}
   m_Layer: 5
   m_Name: ScoreCounterUI
   m_TagString: Untagged
@@ -1254,6 +1272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carrotIconPrefab: {fileID: 1306293032771391020, guid: e065b66e9d6d7124f897e19b7293697e, type: 3}
   collectedCarrotSprite: {fileID: 21300000, guid: 89dc62fcaed8efc4d88d6a758b64f389, type: 3}
+  timerManager: {fileID: 1011448440}
 --- !u!114 &1221794990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1318,6 +1337,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1221794987}
   m_CullTransparentMesh: 1
+--- !u!95 &1221794993
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221794987}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 94c3abbc590f5cd46b9b12a915428adf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1639852508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,7 +1611,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -232422020, guid: 6b6d31374a77f514fb6182e526fe9324, type: 3}
+  m_Sprite: {fileID: 1405694198, guid: 6b6d31374a77f514fb6182e526fe9324, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1703,7 +1742,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 32, y: 16}
+  m_SizeDelta: {x: 40, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1981471425
 MonoBehaviour:
@@ -1725,7 +1764,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 306940842, guid: 6b6d31374a77f514fb6182e526fe9324, type: 3}
+  m_Sprite: {fileID: 858372212, guid: 6b6d31374a77f514fb6182e526fe9324, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1897,7 +1936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 50
+    m_Left: 35
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
@@ -1961,10 +2000,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ??
+  m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 15671fd1ebc32484b9ea1750050393db, type: 2}
+  m_sharedMaterial: {fileID: -5377322362304627556, guid: 15671fd1ebc32484b9ea1750050393db, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2070,6 +2109,7 @@ GameObject:
   - component: {fileID: 2062205479}
   - component: {fileID: 2062205478}
   - component: {fileID: 2062205477}
+  - component: {fileID: 2062205480}
   m_Layer: 5
   m_Name: Reset Button
   m_TagString: Untagged
@@ -2192,6 +2232,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062205475}
   m_CullTransparentMesh: 1
+--- !u!114 &2062205480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062205475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60cfe6b3aeb348f43aa65942dda761b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSprite: {fileID: 1405694198, guid: 6b6d31374a77f514fb6182e526fe9324, type: 3}
+  focusedSprite: {fileID: -232422020, guid: 6b6d31374a77f514fb6182e526fe9324, type: 3}
+  buttonImage: {fileID: 1892372608}
 --- !u!1001 &1445184180477949442
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2209,6 +2264,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1445184178998301326, guid: 5ed8fc2700a493b4a9c71b4d48028a7e, type: 3}
       propertyPath: mazeGeneratorPrefab
+      value: 
+      objectReference: {fileID: 5198403439532465529, guid: 32af0cac8075d1f419bf787f3a935ac2, type: 3}
+    - target: {fileID: 1445184178998301326, guid: 5ed8fc2700a493b4a9c71b4d48028a7e, type: 3}
+      propertyPath: dfsMazeGeneratorPrefab
+      value: 
+      objectReference: {fileID: 5198403439532465529, guid: 32af0cac8075d1f419bf787f3a935ac2, type: 3}
+    - target: {fileID: 1445184178998301326, guid: 5ed8fc2700a493b4a9c71b4d48028a7e, type: 3}
+      propertyPath: primMazeGeneratorPrefab
       value: 
       objectReference: {fileID: 5198403439532465529, guid: 410e408ecf1d2db4198a9f71d99b4e9e, type: 3}
     - target: {fileID: 1445184178998301327, guid: 5ed8fc2700a493b4a9c71b4d48028a7e, type: 3}

@@ -16,13 +16,9 @@ public class PrimsMazeGenerator : MazeGenerator
 
         MazeTile tile;
 
-        do
-        {
-            frontierTiles.Clear();
-            tile = GetRandomTile(mazeTiles);
-            AddFrontierTiles(tile.position.x, tile.position.y, false);
-        } while (frontierTiles.Count != 4);
-
+        Vector2Int startPos = new Vector2Int(Random.Range(1, width - 1), Random.Range(1, height - 1));
+        tile = mazeTiles[startPos.x, startPos.y];
+        AddFrontierTiles(tile.position.x, tile.position.y, false);
         tile.ChangeState(MazeTile.TileState.Passage);
 
         // While there are tiles in the frontier list
@@ -55,24 +51,6 @@ public class PrimsMazeGenerator : MazeGenerator
 
 
         InstantiateGameObjects();
-    }
-
-    // Method to check if a position is within the maze bounds
-    private bool IsWithinBounds(Vector2Int position)
-    {
-        return position.x > 0 && position.x < width - 1 && position.y > 0 && position.y < height - 1;
-    }
-
-    // Method to get a random tile from a MazeTile[,] array
-    private MazeTile GetRandomTile(MazeTile[,] mazeTiles)
-    {
-        int width = mazeTiles.GetLength(0);
-        int height = mazeTiles.GetLength(1);
-
-        int randomX = Random.Range(0, width);
-        int randomY = Random.Range(0, height);
-
-        return mazeTiles[randomX, randomY];
     }
 
     // Overloaded method to get a random tile from a List<Vector2Int>
