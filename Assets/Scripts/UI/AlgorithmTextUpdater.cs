@@ -1,17 +1,28 @@
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Updates the TextMeshPro text object to display the currently selected maze generation algorithm.
+/// </summary>
 public class AlgorithmTextUpdater : MonoBehaviour
 {
+    /// <summary>
+    /// TextMeshPro text object to display the selected algorithm.
+    /// </summary>
     [SerializeField, Tooltip("TextMeshPro text object to display the selected algorithm")]
     private TextMeshProUGUI algorithmText;
 
+    /// <summary>
+    /// Subscribes to the AlgorithmChanged event and initializes the text with the current algorithm.
+    /// </summary>
     private void Start()
     {
         if (SettingsManager.Instance != null)
         {
+            // Subscribe to the AlgorithmChanged event
             SettingsManager.Instance.AlgorithmChanged += OnAlgorithmChanged;
-            UpdateAlgorithmText(); // Initialize with the current algorithm
+            // Initialize with the current algorithm
+            UpdateAlgorithmText();
         }
         else
         {
@@ -19,6 +30,9 @@ public class AlgorithmTextUpdater : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Unsubscribes from the AlgorithmChanged event to prevent memory leaks.
+    /// </summary>
     private void OnDestroy()
     {
         if (SettingsManager.Instance != null)
@@ -27,11 +41,17 @@ public class AlgorithmTextUpdater : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Event handler for the AlgorithmChanged event, updates the displayed algorithm text.
+    /// </summary>
     private void OnAlgorithmChanged()
     {
         UpdateAlgorithmText();
     }
 
+    /// <summary>
+    /// Updates the TextMeshPro text object to display the currently selected maze algorithm.
+    /// </summary>
     private void UpdateAlgorithmText()
     {
         if (algorithmText != null)

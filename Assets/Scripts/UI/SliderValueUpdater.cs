@@ -2,18 +2,33 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Updates the displayed value of a TextMeshProUGUI component based on the value of a slider.
+/// </summary>
 public class SliderValueUpdater : MonoBehaviour
 {
+    /// <summary>
+    /// The slider component to get the value from.
+    /// </summary>
     [SerializeField, Tooltip("The slider component to get the value from")]
     private Slider slider;
 
+    /// <summary>
+    /// The TextMeshPro text component to display the value.
+    /// </summary>
     [SerializeField, Tooltip("The TextMeshPro text component to display the value")]
     private TextMeshProUGUI valueText;
 
+    /// <summary>
+    /// The prefix text to display before the value (e.g., 'Height:' or 'Width:').
+    /// </summary>
     [SerializeField, Tooltip("The prefix text to display before the value (e.g., 'Height:' or 'Width:')")]
     private string prefixText = "Height";
 
-    void Start()
+    /// <summary>
+    /// Initializes the slider value updater.
+    /// </summary>
+    private void Start()
     {
         if (slider == null)
         {
@@ -34,8 +49,13 @@ public class SliderValueUpdater : MonoBehaviour
         slider.onValueChanged.AddListener(UpdateValueText);
     }
 
+    /// <summary>
+    /// Updates the text to display the current slider value.
+    /// </summary>
+    /// <param name="value">The current value of the slider.</param>
     private void UpdateValueText(float value)
     {
-        valueText.text = prefixText + ": " + value.ToString("F0"); // "F0" formats the float to 0 decimal places
+        // Format the value to 0 decimal places and update the text component
+        valueText.text = prefixText + ": " + value.ToString("F0");
     }
 }

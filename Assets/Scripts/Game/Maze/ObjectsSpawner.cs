@@ -2,15 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles the spawning of objects within the maze, ensuring they are placed on passage tiles and not overlapping.
+/// </summary>
 public class ObjectsSpawner : MonoBehaviour
 {
-    // List to track occupied tiles
+    /// <summary>
+    /// List to track occupied tiles.
+    /// </summary>
     private List<Vector2Int> occupiedTiles = new List<Vector2Int>();
 
-    // List to keep references to spawned objects
+    /// <summary>
+    /// List to keep references to spawned objects.
+    /// </summary>
     private List<GameObject> spawnedObjects = new List<GameObject>();
 
-    // Method to spawn a specific number of objects at random passage tiles
+    /// <summary>
+    /// Spawns a specific number of objects at random passage tiles in the maze.
+    /// </summary>
+    /// <param name="width">The width of the maze.</param>
+    /// <param name="height">The height of the maze.</param>
+    /// <param name="mazeTiles">The 2D array of maze tiles.</param>
+    /// <param name="prefab">The prefab to spawn.</param>
+    /// <param name="numberOfObjects">The number of objects to spawn.</param>
     public void SpawnObjects(int width, int height, MazeTile[,] mazeTiles, GameObject prefab, int numberOfObjects)
     {
         List<MazeTile> passageTiles = new List<MazeTile>();
@@ -43,6 +57,7 @@ public class ObjectsSpawner : MonoBehaviour
                 // Mark the tile as occupied
                 occupiedTiles.Add(randomPosition);
 
+                // Calculate the correct position for instantiation considering the prefab's collider offset
                 BoxCollider2D prefabBoxCollider = prefab.GetComponent<BoxCollider2D>();
                 Vector3 instantiatePos = new Vector3(randomTile.transform.position.x - prefabBoxCollider.offset.x, randomTile.transform.position.y - prefabBoxCollider.offset.y);
 
@@ -57,13 +72,17 @@ public class ObjectsSpawner : MonoBehaviour
         }
     }
 
-    // Method to clear the occupied tiles list
+    /// <summary>
+    /// Clears the list of occupied tiles.
+    /// </summary>
     public void ClearOccupiedTiles()
     {
         occupiedTiles.Clear();
     }
 
-    // Method to clear all spawned objects
+    /// <summary>
+    /// Destroys all spawned objects and clears the list.
+    /// </summary>
     public void ClearSpawnedObjects()
     {
         foreach (GameObject obj in spawnedObjects)
